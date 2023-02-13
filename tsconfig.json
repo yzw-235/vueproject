@@ -1,0 +1,18 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "isolatedModules": true,//vite使用esbuild来转译TypeScript,并受限于单文本转译的限制
+    "strict": false, //选项式api启用，this会被认为any
+    "paths": {
+      "@/*": ["./src/*"] //typescript特殊配置
+    }
+  },
+
+  "references": [
+    {
+      "path": "./tsconfig.config.json"
+    }
+  ]
+}
