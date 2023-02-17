@@ -1,49 +1,183 @@
 <!DOCTYPE html>
 <html lang="en" id="htmlRoot">
-  <>
-    <meta charset="UTF-8">
-    <!-- <meta http-equiv="refresh" content="30"> 每30秒刷新文档   -->
-    <!-- 可以让用户的浏览器外观依然是IE的菜单和界面，但用户在浏览网页时，实际上使用的是Google Chrome浏览器内核。 -->
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <!-- 告诉浏览器默认以哪种浏览器内核浏览当前网站 webkit -->
-    <meta name="renderer" content="webkit"/>
-    <!-- 页面宽度是设备屏幕的宽度 initial-scale=1.0：表示初始的缩放比例 minimum-scale=0.5\
+<>
+  <meta charset="UTF-8">
+  <!-- <meta http-equiv="refresh" content="30"> 每30秒刷新文档   -->
+  <!-- 可以让用户的浏览器外观依然是IE的菜单和界面，但用户在浏览网页时，实际上使用的是Google Chrome浏览器内核。 -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <!-- 告诉浏览器默认以哪种浏览器内核浏览当前网站 webkit -->
+  <meta name="renderer" content="webkit" />
+  <!-- 页面宽度是设备屏幕的宽度 initial-scale=1.0：表示初始的缩放比例 minimum-scale=0.5\
       表示最小的缩放比例 maximum-scale=1.0：表示最大的缩放比例 user-scalable=no：表示用户是否可以调整缩放比例。
     -->
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum=1.0,user-scalable=0"/>
-    <link rel="icon" href="/favicon.ico">
-    <title><%= title %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum=1.0,user-scalable=0" />
+  <link rel="icon" href="/favicon.ico">
+  <title>
+    <%= title %>
+  </title>
   </head>
+
   <body>
     <script>
-      ;(() => {
+      ; (() => {
         var htmlRoot = document.getElementById('htmlRoot')
         //获取指定key本地存储的值
         var theme = window.localStorage.getItem('__APP__DARK__MODE__')
-        if(htmlRoot && theme){
+        if (htmlRoot && theme) {
           htmlRoot.setAttribute('data-theme', theme)
           theme = htmlRoot = null
         }
       })()
-    </script>  
-    <div id="app"></div>
-    <style>
-      html[data-theme='dark'].app-loading{
-        background-color: #2c344a;
-      }
-      html[data-theme='dark'].app-loading .app-loading-title{
-        color: rgb(255 255 255  / 85%);
-      }
-      .app-loading{
-        display: flex;
-        width: 100%;
-        height: 100%;
-        /* 居中排列 */
-        justify-content: center;
-        /* 元素在侧轴居中。如果元素在侧轴上的高度高于其容器，那么在两个方向上溢出距离相同 */
-        align-items: center;
-      }
-    </style>
+    </script>
+    <div id="app">
+      <style>
+        html[data-theme='dark'].app-loading {
+          background-color: #2c344a;
+        }
+
+        html[data-theme='dark'].app-loading .app-loading-title {
+          color: rgb(255 255 255 / 85%);
+        }
+
+        .app-loading {
+          display: flex;
+          width: 100%;
+          height: 100%;
+          /* 居中排列 */
+          justify-content: center;
+          /* 元素在侧轴居中。如果元素在侧轴上的高度高于其容器，那么在两个方向上溢出距离相同 */
+          align-items: center;
+          /* flex 容器的主轴和块轴相同。主轴起点与主轴终点和书写模式的前后点相同 */
+          flex-direction: column;
+          background-color: #f4f7f9;
+        }
+
+        .app-loading .app-loading-wrap {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          display: flex;
+          /* x y z 轴上的变化 */
+          transform: translate3d(-50%, -50%, 0);
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+        }
+
+        .app-loading .dots {
+          display: flex;
+          padding: 98px;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .app-loading .app-loading-title {
+          display: flex;
+          margin-top: 30px;
+          font-size: 30px;
+          color: rgb(0 0 0 / 85%);
+          justify-content: center;
+          align-items: center;
+        }
+
+        .app-loading .app-loading-logo {
+          display: block;
+          width: 90px;
+          margin: 0 auto;
+          margin-bottom: 20px;
+        }
+
+        .dot {
+          /* 设置相对定位的元素的 top、right、bottom 和 left 属性将导致其偏离其正常位置进行调整。不会对其余内容进行调整来适应元素留下的任何空间。 */
+          position: relative;
+          /* inline-block 在元素之后不添加换行符，因此该元素可以位于其他元素旁边。 inline-block 用于水平而不是垂直地显示列表项。 */
+          display: inline-block;
+          width: 48px;
+          height: 48px;
+          margin-top: 30px;
+          font-size: 32px;
+          /* 顺时针旋转45° */
+          transform: rotate(45deg);
+          /* width 和 height 属性包括内容，内边距和边框，但不包括外边距。 */
+          box-sizing: border-box;
+          /* name duration变化时间 iteration-count运行次数 timing-function开始到结束速度相同 */
+          animation: antRotate 1.2s infinite linear;
+        }
+
+        .dot i {
+          position: absolute;
+          display: block;
+          width: 20px;
+          height: 20px;
+          background-color: #0065cc;
+          border-radius: 100%;
+          opacity: 30%;
+          /* 元素减小为其原始宽度和高度的0.75 */
+          transform: scale(0.75);
+          /*  动画先向前播放，然后向后 */
+          animation: antSpinMove 1s infinite linear alternate;
+          /* 视图被定于x轴的50 y轴的50%处， */
+          transform-origin: 50% 50%;
+        }
+
+        .dot i:nth-child(1) {
+          top: 0;
+          left: 0;
+        }
+
+        .dot i:nth-child(2) {
+          top: 0;
+          right: 0;
+          animation-delay: 0.4s;
+        }
+
+        .dot i:nth-child(3) {
+          right: 0;
+          bottom: 0;
+          animation-delay: 0.8s;
+        }
+
+        .dot i:nth-child(4) {
+          bottom: 0;
+          left: 0;
+          animation-delay: 1.2s;
+        }
+
+        @keyframes antRotate {
+          to {
+            transform: rotate(405deg);
+          }
+        }
+
+        @keyframes antRotate {
+          to {
+            transform: rotate(405deg);
+          }
+        }
+
+        @keyframes antSpinMove {
+          to {
+            opacity: 100%;
+          }
+        }
+
+        @keyframes antSpinMove {
+          to {
+            opacity: 100%;
+          }
+        }
+      </style>
+      <div class="app-loading">
+        <div class="app-loading-wrap">
+          <img src="/resource/img/logo.png" class="app-loading-logo" alt="Logo">
+          <div class="app-loading-dots">
+            <span class="dot dot-spin"><i></i><i></i><i></i><i></i></span>
+          </div>
+          <div class="app-loading-title"><%= title %></div>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
+
 </html>
